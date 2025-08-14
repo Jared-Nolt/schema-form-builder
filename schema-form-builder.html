@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schema Fields Combiner</title>
-    <link rel="stylesheet" href="static/main.scss" />
+<link rel="stylesheet" src=("https://github.com/Jared-Nolt/schema-form-builder/blob/main/static/main.css") />
  
 </head>
 <body class="">
@@ -61,6 +61,22 @@
                     <input type="text" id="postalCode" onkeyup="updateResult()" class="" placeholder="e.g., Zip">
                 </div>
             </div>
+            
+            <!--Telephone-->
+            <div class="flex-grow">
+                <label for="telephone" class="">Phone (itemprop="postalCode")</label>
+                <div class="">
+                    <input type="text" id="telephone" onkeyup="updateResult()" class="" placeholder="e.g., Phone">
+                </div>
+            </div>
+            
+            <!--Opening Hours-->
+            <label for="openingHours">Enter time (HH:MM):</label>
+			<input type="text" id="openingHours" onkeyup="updateResult()" name="openingHours" pattern="[0-2][0-9]:[0-5][0-9]" placeholder="e.g., 23:59">
+<!Items to add
+Hours:
+<meta itemprop="openingHours" content="Mo-Sa 11:00-14:30" Mon-Sat 11am - 2:30pm
+-->
 
 		<!--END form-wrapper-->
         </div>
@@ -98,7 +114,7 @@ parts.push(`<div itemscope itemtype="https://schema.org/LocalBusiness">`);
         // Street Address
         const streetAddress = document.getElementById('streetAddress').value;
         if (streetAddress.trim() !== '') {
-            parts.push(`<span itemprop="streetAddress">${streetAddress}</span>`);
+            parts.push(`<span itemprop="streetAddress">${streetAddress}</span> `);
             const addLineBreak = document.getElementById('streetAddress_lineBreakCheck').checked;
             if (addLineBreak) {
                 parts.push('<br/>');
@@ -108,13 +124,13 @@ parts.push(`<div itemscope itemtype="https://schema.org/LocalBusiness">`);
 		// Address Locality City
         const addressLocality = document.getElementById('addressLocality').value;
         if (addressLocality.trim() !== '') {
-            parts.push(`<span itemprop="addressLocality">${addressLocality},</span>`);
+            parts.push(`<span itemprop="addressLocality">${addressLocality}</span>, `);
         }
         
         // Address Region State
         const addressRegion = document.getElementById('addressRegion').value;
         if (addressLocality.trim() !== '') {
-            parts.push(`<span itemprop="addressRegion">${addressRegion}</span>`);
+            parts.push(`<span itemprop="addressRegion">${addressRegion}</span> `);
         }
         // Postal Code
         const postalCode = document.getElementById('postalCode').value;
@@ -125,7 +141,17 @@ parts.push(`<div itemscope itemtype="https://schema.org/LocalBusiness">`);
 	// END PostalAddress
 	parts.push(`</div>`);
 
+		// Phone
+        const telephone = document.getElementById('telephone').value;
+        if (telephone.trim() !== '') {
+            parts.push(`<span itemprop="telephone">${telephone}</span>`);
+        }
 
+		// Opening Hours
+        const openingHours = document.getElementById('openingHours').value;
+        if (openingHours.trim() !== '') {
+            parts.push(`<span itemprop="openingHours">${openingHours}</span>`);
+        }
 
 // END schema wrapper
 parts.push(`</div>`);

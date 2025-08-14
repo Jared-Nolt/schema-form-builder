@@ -1,0 +1,24 @@
+<div itemscope itemtype="https://schema.org/LocalBusiness">
+	<div>
+		<span itemprop="name">Legendare</span>
+	</div>
+	<div>
+		<span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress"> 
+		<span itemprop="streetAddress">street</span> <br/> 
+		<span itemprop="addressLocality">town</span>,  
+		<span itemprop="addressRegion">st</span>  
+		<span itemprop="postalCode">zip</span>
+		</span>
+	</div>
+	<div>
+		<a href="tel:+1-phone" itemprop="telephone">phone</span>
+	</div>
+	<div>
+		<a href="google maps" target="_blank" aria-label="This link opens in a new tab" rel="nofollow">Directions</a>
+	</div>
+</div>
+
+Hours:
+  <meta itemprop="openingHours" content="Mo-Fr 08:00-17:00">Mon-Fri 8am - 5pm
+  <meta itemprop="openingHours" content="Mo-Th 17:00-21:30">Mon-Thu 5pm - 9:30pm
+  <meta itemprop="openingHours" content="Sa-Su Closed">Sat-Sun Closed
