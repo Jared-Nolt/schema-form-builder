@@ -51,6 +51,6 @@ body {
 	 font-size: 1.1rem;
 }
  code {
-	 text-wrap-mode: wrap;
+text-wrap: auto;
 }
  

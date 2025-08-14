@@ -4,170 +4,249 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schema Fields Combiner</title>
-	<link rel="stylesheet" href="https://github.com/Jared-Nolt/schema-form-builder/blob/main/static/main.css" />
- 
+    <!-- Assuming your CSS file is in a 'static' folder -->
+    <!-- <link rel="stylesheet" href="static/main.css" /> -->
+    <style>
+        /* Basic styles to make the form usable without an external stylesheet */
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 16px; display: flex; flex-direction: column; align-items: center; padding: 2em; gap: 2em; background-color: #f3f4f6; color: #333; }
+        h1 { font-weight: 700; font-size: 1.8rem; text-align: center; margin-bottom: 1rem; width: 100%; }
+        h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+        a { color: #007bff; }
+        .schema-section { width: 100%; max-width: 56rem; border-radius: 1rem; box-shadow: 0 0 10px -4px rgba(0,0,0,0.1); background-color: #fff; padding: 2em; }
+        .form-wrapper { display: flex; flex-wrap: wrap; gap: 1.5em; justify-content: center; align-items: flex-start; }
+        .form-wrapper .flex-grow { flex: 1 1 45%; display: flex; flex-direction: column; min-width: 250px; }
+        .form-wrapper label { font-weight: 500; font-size: 1rem; line-height: 1.25rem; margin-bottom: 0.5rem; }
+        .form-wrapper input[type="text"] { width: 100%; box-sizing: border-box; padding: .75rem; border: 1px solid #d1d5db; border-radius: 10px; font-size: 1rem; }
+        .form-wrapper input[type="checkbox"] { margin-right: 0.5em; }
+        .checkbox-group { display: flex; align-items: center; margin-top: 0.5em; }
+        .result-container { margin-top: 2rem; }
+        .result-output { background-color: #1f2937; color: #f9fafb; border-radius: 0.5rem; padding: 1rem; margin-top: 0.5rem; width: 100%; box-sizing: border-box; }
+        pre, code { white-space: pre-wrap; word-break: break-all; font-family: monospace; }
+        button { cursor: pointer; padding: 0.5em 1em; border-radius: 8px; border: 1px solid transparent; font-weight: 500; background-color: #007bff; color: white; transition: background-color 0.2s; }
+        button:hover { background-color: #0056b3; }
+        .remove-btn { background-color: #dc3545; }
+        .remove-btn:hover { background-color: #c82333; }
+        #opening-hours-container .hours-row { display: flex; flex-wrap: wrap; gap: 1em; align-items: flex-end; margin-bottom: 1em; padding: 1em; border: 1px solid #eee; border-radius: 8px; }
+        .full-width { width: 100%; flex-basis: 100%; }
+    </style>
 </head>
-<body class="">
-<h1 class="">HTML Postal address schema markup</h1>
-    <div class="schema-section">
-        <h2 class=""><a href="https://schema.org/LocalBusiness" target="_blank">Local Business</a></h2>
+<body>
+
+<h1>HTML Postal Address Schema Markup</h1>
+<div class="schema-section">
+    <h2><a href="https://schema.org/LocalBusiness" target="_blank">Local Business</a></h2>
+    
+    <div class="form-wrapper">
         
-        <div class="form-wrapper">
-            
-            <!--Business name with optional linebreak-->
-            <div class="flex-grow">
-                <label for="businessname" class="">Business name (itemprop="name")</label>
-                <div class="">
-                    <input type="text" id="businessname" onkeyup="updateResult()" class="" placeholder="e.g., Business Name">
-                    <div class="">
-                        <input id="businessname_lineBreakCheck" type="checkbox" onchange="updateResult()" class="">
-                        <label for="businessname_lineBreakCheck" class="">Add &lt;br/&gt;</label>
-                    </div>
-                </div>
+        <!-- Business name -->
+        <div class="flex-grow">
+            <label for="businessname">Business name (itemprop="name")</label>
+            <input type="text" id="businessname" onkeyup="updateResult()" placeholder="Business Name">
+            <div class="checkbox-group">
+                <input id="businessname_lineBreakCheck" type="checkbox" onchange="updateResult()">
+                <label for="businessname_lineBreakCheck">Add &lt;br/&gt;</label>
             </div>
-         
-            <!--Street Address with optional linebreak-->
-            <div class="flex-grow">
-                <label for="streetAddress" class="">Street Address (itemprop="streetAddress")</label>
-                <div class="">
-                    <input type="text" id="streetAddress" onkeyup="updateResult()" class="" placeholder="e.g., Street Address">
-                    <div class="">
-                        <input id="streetAddress_lineBreakCheck" type="checkbox" onchange="updateResult()" class="">
-                        <label for="streetAddress_lineBreakCheck" class="">Add &lt;br/&gt;</label>
-                    </div>
-                </div>
+        </div>
+        
+        <!-- Street Address -->
+        <div class="flex-grow">
+            <label for="streetAddress">Street Address (itemprop="streetAddress")</label>
+            <input type="text" id="streetAddress" onkeyup="updateResult()" placeholder="Street Address">
+            <div class="checkbox-group">
+                <input id="streetAddress_lineBreakCheck" type="checkbox" onchange="updateResult()">
+                <label for="streetAddress_lineBreakCheck">Add &lt;br/&gt;</label>
             </div>
-
-            <!--Address Locality City-->
-            <div class="flex-grow">
-                <label for="addressLocality" class="">City (itemprop="addressLocality")</label>
-                <div class="">
-                    <input type="text" id="addressLocality" onkeyup="updateResult()" class="" placeholder="e.g., City">
-                </div>
-            </div>
-            
-            <!--Address Region State-->
-            <div class="flex-grow">
-                <label for="addressRegion" class="">State (itemprop="addressRegion")</label>
-                <div class="">
-                    <input type="text" id="addressRegion" onkeyup="updateResult()" class="" placeholder="e.g., State">
-                </div>
-            </div>
-            
-            <!--Postal Code-->
-            <div class="flex-grow">
-                <label for="postalCode" class="">Zip (itemprop="postalCode")</label>
-                <div class="">
-                    <input type="text" id="postalCode" onkeyup="updateResult()" class="" placeholder="e.g., Zip">
-                </div>
-            </div>
-            
-            <!--Telephone-->
-            <div class="flex-grow">
-                <label for="telephone" class="">Phone (itemprop="postalCode")</label>
-                <div class="">
-                    <input type="text" id="telephone" onkeyup="updateResult()" class="" placeholder="e.g., Phone">
-                </div>
-            </div>
-            
-            <!--Opening Hours-->
-            <label for="openingHours">Enter time (HH:MM):</label>
-			<input type="text" id="openingHours" onkeyup="updateResult()" name="openingHours" pattern="[0-2][0-9]:[0-5][0-9]" placeholder="e.g., 23:59">
-<!Items to add
-Hours:
-<meta itemprop="openingHours" content="Mo-Sa 11:00-14:30" Mon-Sat 11am - 2:30pm
--->
-
-		<!--END form-wrapper-->
         </div>
 
-        <!-- Display for the combined result -->
-        <div class="mt-8">
-            <p class="text-lg text-gray-600 text-center">Combined Result:</p>
-            <!-- The result is displayed inside this pre/code block for better formatting -->
-            <div class="bg-gray-900 text-white rounded-md p-4 mt-2 w-full">
-                <pre><code class="text-sm" id="result">&nbsp;</code></pre>
+        <!-- City -->
+        <div class="flex-grow">
+            <label for="addressLocality">City (itemprop="addressLocality")</label>
+            <input type="text" id="addressLocality" onkeyup="updateResult()" placeholder="City">
+        </div>
+        
+        <!-- State -->
+        <div class="flex-grow">
+            <label for="addressRegion">State (itemprop="addressRegion")</label>
+            <input type="text" id="addressRegion" onkeyup="updateResult()" placeholder="State">
+        </div>
+        
+        <!-- Zip -->
+        <div class="flex-grow">
+            <label for="postalCode">Zip (itemprop="postalCode")</label>
+            <input type="text" id="postalCode" onkeyup="updateResult()" placeholder="Zip">
+        </div>
+        
+        <!-- Telephone -->
+        <div class="full-width">
+             <div style="display: flex; gap: 1.5em; align-items: flex-end;">
+                <div class="flex-grow">
+                    <label for="telephoneLabel">Phone Label</label>
+                    <input type="text" id="telephoneLabel" onkeyup="updateResult()" placeholder="e.g., Phone:">
+                </div>
+                <div class="flex-grow" style="flex-grow: 3;">
+                    <label for="telephone">Phone Number (itemprop="telephone")</label>
+                    <input type="text" id="telephone" onkeyup="updateResult()" placeholder="Phone Number">
+                </div>
+                <div class="checkbox-group" style="padding-bottom: 0.75rem;">
+                     <input id="telephone_lineBreakCheck" type="checkbox" onchange="updateResult()">
+                     <label for="telephone_lineBreakCheck">Break Label</label>
+                </div>
             </div>
+        </div>
+        
+        <!-- Opening Hours Repeater -->
+        <div class="full-width">
+            <label>Opening Hours</label>
+            <div class="flex-grow" style="flex-direction: row; gap: 1.5em; align-items: flex-end;">
+                <div style="flex: 1;">
+                    <label for="openingHoursLabel">Hours Label</label>
+                    <input type="text" id="openingHoursLabel" onkeyup="updateResult()" placeholder="e.g., Hours:">
+                </div>
+                <div class="checkbox-group" style="padding-bottom: 0.75rem;">
+                    <input id="openingHours_lineBreakCheck" type="checkbox" onchange="updateResult()">
+                    <label for="openingHours_lineBreakCheck">Break Label</label>
+                </div>
+            </div>
+            <div id="opening-hours-container" style="margin-top: 1em;">
+                <!-- Repeater rows will be injected here -->
+            </div>
+            <button type="button" id="add-hours-btn" style="margin-top: 1em;">Add Hours Entry</button>
         </div>
 
     </div>
 
-    <script>
-    // This function is called whenever a key is released or the checkbox is changed.
-    function updateResult() {
-        // An array to hold the parts of our final string.
-        const parts = [];
-// schema wrapper
-parts.push(`<div itemscope itemtype="https://schema.org/LocalBusiness">`);
+    <!-- Display for the combined result -->
+    <div class="result-container">
+        <p>Combined Result:</p>
+        <div class="result-output">
+            <pre><code id="result">&nbsp;</code></pre>
+        </div>
+    </div>
+</div>
 
-		// Business name
-        const businessname = document.getElementById('businessname').value;
-        if (businessname.trim() !== '') {
-            parts.push(`<span itemprop="name">${businessname}</span>`);
-            const addLineBreak = document.getElementById('businessname_lineBreakCheck').checked;
-            if (addLineBreak) {
-                parts.push('<br/>');
-            }
-        }
-    // PostalAddress
-	parts.push(`<span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">`);
-        // Street Address
-        const streetAddress = document.getElementById('streetAddress').value;
-        if (streetAddress.trim() !== '') {
-            parts.push(`<span itemprop="streetAddress">${streetAddress}</span> `);
-            const addLineBreak = document.getElementById('streetAddress_lineBreakCheck').checked;
-            if (addLineBreak) {
-                parts.push('<br/>');
-            }
-        }
+<script>
+// --- Main function to update the result view ---
+function updateResult() {
+    const parts = [];
+    parts.push(`<div itemscope itemtype="https://schema.org/LocalBusiness">`);
 
-		// Address Locality City
-        const addressLocality = document.getElementById('addressLocality').value;
-        if (addressLocality.trim() !== '') {
-            parts.push(`<span itemprop="addressLocality">${addressLocality}</span>, `);
+    // Business name
+    const businessname = document.getElementById('businessname').value;
+    if (businessname.trim() !== '') {
+        parts.push(`  <span itemprop="name">${businessname}</span>`);
+        if (document.getElementById('businessname_lineBreakCheck').checked) {
+            parts.push('  <br/>');
         }
-        
-        // Address Region State
-        const addressRegion = document.getElementById('addressRegion').value;
-        if (addressLocality.trim() !== '') {
-            parts.push(`<span itemprop="addressRegion">${addressRegion}</span> `);
-        }
-        // Postal Code
-        const postalCode = document.getElementById('postalCode').value;
-        if (postalCode.trim() !== '') {
-            parts.push(`<span itemprop="postalCode">${postalCode}</span>`);
-        }
-
-	// END PostalAddress
-	parts.push(`</div>`);
-
-		// Phone
-        const telephone = document.getElementById('telephone').value;
-        if (telephone.trim() !== '') {
-            parts.push(`<span itemprop="telephone">${telephone}</span>`);
-        }
-
-		// Opening Hours
-        const openingHours = document.getElementById('openingHours').value;
-        if (openingHours.trim() !== '') {
-            parts.push(`<span itemprop="openingHours">${openingHours}</span>`);
-        }
-
-// END schema wrapper
-parts.push(`</div>`);
-        // Join all the collected parts with a space in between.
-        // This will correctly place spaces around the <br/> tag.
-        const combinedText = parts.join(' ');
-        
-        // Get the result element.
-        const resultElement = document.getElementById('result');
-
-        // Update the text content of the result element.
-        resultElement.textContent = combinedText || '\u00A0';
     }
 
-    // Call the function on page load to initialize the result area.
-    window.onload = updateResult;
+    // PostalAddress
+    const addressParts = [];
+    const streetAddress = document.getElementById('streetAddress').value;
+    if (streetAddress.trim() !== '') {
+        addressParts.push(`<span itemprop="streetAddress">${streetAddress}</span>`);
+        if (document.getElementById('streetAddress_lineBreakCheck').checked) {
+            addressParts.push('<br/>');
+        }
+    }
+    const addressLocality = document.getElementById('addressLocality').value;
+    if (addressLocality.trim() !== '') {
+        addressParts.push(`<span itemprop="addressLocality">${addressLocality}</span>,`);
+    }
+    const addressRegion = document.getElementById('addressRegion').value;
+    if (addressRegion.trim() !== '') {
+        addressParts.push(`<span itemprop="addressRegion">${addressRegion}</span>`);
+    }
+    const postalCode = document.getElementById('postalCode').value;
+    if (postalCode.trim() !== '') {
+        addressParts.push(`<span itemprop="postalCode">${postalCode}</span>`);
+    }
+    if (addressParts.length > 0) {
+        parts.push(`  <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">\n    ${addressParts.join(' ')}\n  </div>`);
+    }
+
+    // Phone
+    const telephone = document.getElementById('telephone').value;
+    const telephoneLabel = document.getElementById('telephoneLabel').value;
+    if (telephone.trim() !== '') {
+        let phoneHtml = '';
+        if (telephoneLabel.trim() !== '') {
+            phoneHtml += telephoneLabel.trim();
+            if (document.getElementById('telephone_lineBreakCheck').checked) {
+                phoneHtml += '<br/>';
+            } else {
+                phoneHtml += ' ';
+            }
+        }
+        phoneHtml += `<span itemprop="telephone">${telephone}</span>`;
+        parts.push(`  <div>${phoneHtml}</div>`);
+    }
+
+    // Opening Hours Repeater
+    const hoursGroups = document.querySelectorAll('#opening-hours-container .hours-row');
+    const hoursLabel = document.getElementById('openingHoursLabel').value;
+    const hoursHtmlParts = [];
+    hoursGroups.forEach(group => {
+        const content = group.querySelector('.opening-hours-content').value;
+        const display = group.querySelector('.opening-hours-display').value;
+        if (display.trim() !== '') {
+            hoursHtmlParts.push(`    <div itemprop="openingHours" content="${content}">${display}</div>`);
+        }
+    });
+
+    if (hoursHtmlParts.length > 0) {
+        let hoursBlock = '  <div>\n';
+        if (hoursLabel.trim() !== '') {
+            hoursBlock += `    ${hoursLabel.trim()}`;
+            if (document.getElementById('openingHours_lineBreakCheck').checked) {
+                hoursBlock += '<br/>\n';
+            } else {
+                 hoursBlock += '\n';
+            }
+        }
+        hoursBlock += hoursHtmlParts.join('\n');
+        hoursBlock += '\n  </div>';
+        parts.push(hoursBlock);
+    }
+
+    parts.push(`</div>`);
+    
+    const combinedText = parts.join('\n');
+    document.getElementById('result').textContent = combinedText.trim() ? combinedText : '\u00A0';
+}
+
+// --- Function to add a new row of opening hours fields ---
+function addHoursRow() {
+    const container = document.getElementById('opening-hours-container');
+    const newRow = document.createElement('div');
+    newRow.className = 'hours-row';
+    
+    newRow.innerHTML = `
+        <div class="flex-grow">
+            <label>Schema Value</label>
+            <input type="text" class="opening-hours-content" onkeyup="updateResult()" placeholder="e.g., Mo-Fr 09:00-17:00">
+        </div>
+        <div class="flex-grow">
+            <label>Display Value</label>
+            <input type="text" class="opening-hours-display" onkeyup="updateResult()" placeholder="e.g., Mon-Fri 9am - 5pm">
+        </div>
+        <button type="button" class="remove-btn">Remove</button>
+    `;
+    
+    container.appendChild(newRow);
+    
+    newRow.querySelector('.remove-btn').addEventListener('click', function() {
+        newRow.remove();
+        updateResult();
+    });
+}
+
+// --- Initial Setup ---
+document.addEventListener('DOMContentLoaded', function() {
+    addHoursRow();
+    document.getElementById('add-hours-btn').addEventListener('click', addHoursRow);
+    updateResult();
+});
+
 </script>
 
 </body>
